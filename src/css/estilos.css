@@ -1,6 +1,17 @@
+/* Estilos base */
 body {
     background-color: #000000;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
     overflow: hidden;
+}
+
+/* Layout principal */
+main {
+    position: relative;
+    width: 100%;
+    height: 100vh;
 }
 
 main::after {
@@ -10,16 +21,24 @@ main::after {
     left: 0;
     min-height: 100vh;
     width: 80vw;
-    background: linear-gradient(-233deg, #000 40%, rgba(0, 0, 0, 0) 65%) no-repeat;
+    background: linear-gradient(-233deg, #0000005d 40%, rgba(0, 0, 0, 0) 65%) no-repeat;
+    z-index: 1;
 }
 
+/* Exibição de personagens */
 main .personagem {
     display: none;
     height: 100vh;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.6s ease, transform 0.5s ease;
 }
 
 main .personagem.selecionado {
     display: block;
+    animation: fadeIn 0.6s ease forwards;
 }
 
 main .personagem .imagem {
@@ -28,6 +47,14 @@ main .personagem .imagem {
     object-fit: cover;
 }
 
+main .personagem:not(.selecionado) {
+    opacity: 0;
+    position: absolute;
+    transform: translateX(-20px);
+    pointer-events: none;
+}
+
+/* Seção de conteúdo */
 .conteudo {
     position: absolute;
     top: 0;
@@ -37,13 +64,23 @@ main .personagem .imagem {
     justify-content: center;
     min-height: 100vh;
     max-width: 380px;
-    z-index: 1;
+    z-index: 2;
+    padding: 20px 0;
+}
+
+.conteudo .logo {
+    background-image: url("../imagens/one-piece-logo.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100px;
+    width: 230px;
+    margin-bottom: 35px;
 }
 
 .conteudo .nome-personagem {
     color: #ffffff;
     font-size: 48px;
-    font-family: "Secular One";
+    font-family: "Secular One", sans-serif;
     font-weight: 400;
     margin-bottom: 20px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -51,19 +88,13 @@ main .personagem .imagem {
 
 .conteudo .descricao {
     color: #ffffff;
-    font-family: "Rubik";
-    line-height: 24px;
+    font-family: "Rubik", sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.conteudo .logo {
-    background-image: url("../imagens/one-piece-logo.png");
-    background-size: cover;
-    height: 100px;
-    width: 230px;
-    margin-bottom: 35px;
-}
-
+/* Botões de navegação */
 .botoes {
     position: fixed;
     top: 0;
@@ -74,9 +105,11 @@ main .personagem .imagem {
     width: 180px;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    background-color: rgba(0, 0, 0, 0.3);
+    gap: 15px;
+    background-color: rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
+    z-index: 3;
+    padding: 10px 0;
 }
 
 .botoes .botao {
@@ -84,7 +117,9 @@ main .personagem .imagem {
     background: #000000;
     cursor: pointer;
     border-radius: 50%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    padding: 0;
+    overflow: hidden;
 }
 
 .botoes .botao img {
@@ -92,13 +127,38 @@ main .personagem .imagem {
     width: 80px;
     height: 80px;
     object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
 .botoes .botao.selecionado {
     transform: scale(1.2);
     box-shadow: 0 0 15px #D9D9D9;
+    animation: pulseButton 2s infinite;
+}
+
+.botoes .botao:hover:not(.selecionado) {
+    transform: scale(1.1);
+    filter: brightness(1.2);
 }
 
 .botoes .botao:focus {
     outline: 2px solid white;
+}
+
+/* Acessibilidade */
+.botao:focus-visible {
+    outline: 3px solid #e63946;
+    outline-offset: 3px;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulseButton {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }

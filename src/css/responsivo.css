@@ -113,3 +113,30 @@
         max-width: 45px;
     }
 }
+
+@media (max-width: 320px) {
+    .conteudo {
+        padding: 10px;
+        left: 0;
+    }
+
+    .botoes {
+        gap: 5px;
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .botoes .botao img {
+        max-width: 40px;
+    }
+
+    .conteudo .nome-personagem {
+        font-size: 20px;
+    }
+}
+
+@media (hover: none) {
+    .botoes .botao:active {
+        transform: scale(0.95);
+    }
+}
