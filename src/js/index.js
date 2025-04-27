@@ -1,40 +1,57 @@
-/* 
-  O que precisamos fazer? - quando clicar no botão do personagem na lista, temos que 
-marcar o botão como selecionado e mostrar o personagem correspondente
+document.addEventListener('DOMContentLoaded', () => {
+    // Constantes para classes e storage
+    const CLASS_SELECTED = 'selecionado';
+    const STORAGE_KEY = 'selectedCharacter';
 
-    OBJETIVO 1 - quando clicar no botão do personagem na lista, marcar o botao como selecionado 
-        passo 1 - pegar os botões no JS pra poder verificar quando o usuário clicar em cima de um deles
-        passo 2 - adicionar a classe "selecionado" no botão que o usuário clicou
-        passo 3 - verificar se já existe um botão selecionado, se sim, devemos remover 
-a seleção dele 
+    const botoes = document.querySelectorAll('.botao');
+    const personagens = document.querySelectorAll('.personagem');
+    const clickSound = document.getElementById('clickSound');
 
-    OBJETIVO 2 - quando clicar no botão do personagem mostrar as informações do personagem
-        passo 1 - pegar os personagens no JS pra poder mostrar ou esconder ele
-        passo 2 - adicionar a classe "selecionado" no personagem que o usuário selecionou
-        passo 3 - verificar se já exista um personagem selecionado, se sim, devemos remover 
-a seleção dele 
-*/
+    // Função para remover seleção atual
+    function limparSelecao() {
+        document.querySelector(`.botao.${CLASS_SELECTED}`)?.classList.remove(CLASS_SELECTED);
+        document.querySelector(`.personagem.${CLASS_SELECTED}`)?.classList.remove(CLASS_SELECTED);
+    }
 
-// OBJETIVO 1 - quando clicar no botão do personagem na lista, marcar o botao como selecionado 
-// passo 1 - pegar os botões no JS pra poder verificar quando o usuário clicar em cima de um deles
-const botoes = document.querySelectorAll('.botao');
-const personagens = document.querySelectorAll('.personagem');
+    // Função para ativar personagem e botão
+    function ativarPersonagem(indice) {
+        limparSelecao();
+        botoes[indice].classList.add(CLASS_SELECTED);
+        personagens[indice].classList.add(CLASS_SELECTED);
+        botoes[indice].focus(); // Acessibilidade: foco no botão selecionado
+        localStorage.setItem(STORAGE_KEY, indice);
 
-botoes.forEach((botao, indice) => {
-    botao.addEventListener("click", () => {
-        // passo 3 - verificar se já existe um botão selecionado, se sim, devemos remover a seleção dele
-        const botaoSelecionado = document.querySelector(".botao.selecionado");
-        botaoSelecionado.classList.remove("selecionado");
+        // Toca o som, se existir
+        if (clickSound) {
+            clickSound.currentTime = 0;
+            clickSound.play();
+        }
+    }
 
-        // passo 2 - adicionar a classe "selecionado" no botão que o usuário clicou 
-        botao.classList.add("selecionado");
+    // Carrega seleção salva
+    const savedIndex = localStorage.getItem(STORAGE_KEY);
+    if (savedIndex !== null && botoes[savedIndex]) {
+        ativarPersonagem(Number(savedIndex));
+    }
 
-        // OBJETIVO 2 - quando clicar no botão do personagem mostrar as informações do personagem
-        // passo 3 - verificar se já existe um personagem selecionado, se sim, devemos remover a seleção dele
-        const personagemSelecionado = document.querySelector(".personagem.selecionado");
-        personagemSelecionado.classList.remove("selecionado");
+    // Navegação por teclado global (setas)
+    document.addEventListener('keydown', (e) => {
+        const currentIndex = [...botoes].findIndex(b => b.classList.contains(CLASS_SELECTED));
+        if (e.key === 'ArrowDown' && currentIndex < botoes.length - 1) {
+            ativarPersonagem(currentIndex + 1);
+        } else if (e.key === 'ArrowUp' && currentIndex > 0) {
+            ativarPersonagem(currentIndex - 1);
+        }
+    });
 
-        // passo 2 - adicionar a classe "selecionado" no personagem que o usuário selecionou
-        personagens[indice].classList.add("selecionado");
+    // Event listeners para cada botão
+    botoes.forEach((botao, indice) => {
+        botao.addEventListener('click', () => ativarPersonagem(indice));
+        botao.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                ativarPersonagem(indice);
+            }
+        });
     });
 });
