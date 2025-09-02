@@ -2,6 +2,8 @@
 
 Este projeto é uma página web interativa que apresenta os principais personagens do anime One Piece, desenvolvida durante a "Semana do Zero ao Programador Contratado" Evento Dev em Dobro.
 
+![imagem do projeto](image.png)
+
 ## 📋 Descrição
 
 Uma aplicação web responsiva que permite aos usuários navegar entre diferentes personagens de One Piece, exibindo informações e imagens de cada um. O projeto demonstra técnicas modernas de desenvolvimento front-end com foco em acessibilidade e experiência do usuário.
