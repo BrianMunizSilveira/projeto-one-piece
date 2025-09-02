@@ -67,11 +67,13 @@
 
 @media (max-width: 480px) {
     main .personagem .imagem {
-        height: auto;
+        background-position: center;
+        height: 75%;
+        object-fit: cover;
     }
 
     .conteudo {
-        top: -20%;
+        top: -25%;
         padding: 20px;
     }
 
@@ -91,12 +93,13 @@
     }
 
     .botoes {
-        padding: 15px;
-        gap: 10px;
+        padding: 20px;
+        gap: 15px;
     }
 
     .botoes .botao img {
         max-width: 50px;
+        height: auto;
     }
 }
 
